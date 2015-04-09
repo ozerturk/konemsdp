@@ -1,0 +1,99 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns="urn:com:ericsson:schema:xml:m2m:protocols:vnd.ericsson.m2m.output"
+ targetNamespace="urn:com:ericsson:schema:xml:m2m:protocols:vnd.ericsson.m2m.output"
+ elementFormDefault="qualified">
+
+ <xs:element name="output">
+  <xs:complexType>
+   <xs:sequence>
+     <xs:element name="metadata" type="metadataType" minOccurs="0" maxOccurs="1" />
+    <xs:element name="data" type="payloadType" minOccurs="1" maxOccurs="unbounded" />
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:complexType name="metadataType">
+  <xs:all>
+   <xs:element type="xs:string" name="type" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="eventId" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="messageId" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:positiveInteger" name="sequenceNumber" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="metricUnit" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="description" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="extraMetaInfo" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="logicalGroupId" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="logicalGroupDescription" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="logicalGroupExtraMetaInfo" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="temporalGroupId" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="temporalGroupDescription" minOccurs="0" maxOccurs="1" />
+   <xs:element type="xs:string" name="temporalGroupExtraMetaInfo" minOccurs="0" maxOccurs="1" />
+  </xs:all>
+ </xs:complexType>  
+
+ <xs:complexType name="payloadType">
+  <xs:all>
+   <xs:element name="sourceIdentifiers" type="sourceIdentifiersType" minOccurs="0" maxOccurs="1" />
+   <xs:element name="value">
+    <xs:complexType>
+     <xs:simpleContent>
+      <xs:extension base="payloadValueType">
+       <xs:attribute name="type" type="payloadValueTypeName" />
+      </xs:extension>
+     </xs:simpleContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element type="xs:dateTime" name="timestamp"/>
+    <xs:element name="metadata" type="metadataType" minOccurs="0" maxOccurs="1" />
+  </xs:all>
+ </xs:complexType>  
+
+ <xs:complexType name="sourceIdentifiersType">
+  <xs:all>
+   <xs:element type="identifiers" name="operator" minOccurs="0" maxOccurs="1" />
+   <xs:element name="resourceSets" minOccurs="0" maxOccurs="1">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element name="resourceSetId" type="identifiers" minOccurs="1" maxOccurs="unbounded" />
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element type="identifiers" name="domainApplication" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="enterpriseCustomer" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="user" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="gatewayGroup" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="gateway" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="sensor" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="resource" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="gatewayGroupSpec" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="gatewaySpec" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="sensorSpec" minOccurs="0" maxOccurs="1" />
+   <xs:element type="identifiers" name="resourceSpec" minOccurs="0" maxOccurs="1" />
+  </xs:all>
+ </xs:complexType>  
+
+ <xs:complexType name="identifiers">
+  <xs:all>
+   <xs:element name="urn" type="xs:string" minOccurs="1" maxOccurs="1" />
+   <xs:element name="extIds" minOccurs="0" maxOccurs="1">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="unbounded" />
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+  </xs:all>
+ </xs:complexType>
+
+ <xs:simpleType name="payloadValueType">
+  <xs:union memberTypes="xs:integer xs:double xs:string xs:base64Binary xs:string" />
+ </xs:simpleType>  
+
+ <xs:simpleType name="payloadValueTypeName">
+  <xs:restriction base="xs:string">
+   <xs:enumeration value="integer" />
+   <xs:enumeration value="double" />
+   <xs:enumeration value="string" />
+   <xs:enumeration value="base64" />
+  </xs:restriction>
+ </xs:simpleType>
+</xs:schema>
